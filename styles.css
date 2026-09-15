@@ -308,16 +308,17 @@ footer{padding-block:36px;}
 .split-figure{margin:0;}
 .split-figure .photo{aspect-ratio:3/2;}
 @media (min-width:860px){
-  .split{grid-template-columns:2.2fr 1fr; gap:44px;}
-  .split--media-first{grid-template-columns:1fr 2.2fr;}
+  .split{grid-template-columns:3fr 1fr; gap:40px;}
+  .split--media-first{grid-template-columns:1fr 3fr;}
   .split--media-first .split-figure{order:-1;}
 }
 
-/* One contained band per page, inset from the margins - never edge to edge */
-.band-section{padding-block:40px; border-bottom:1px solid var(--rule);}
-@media (min-width:860px){ .band-section{padding-block:56px;} }
-.band{margin:0; max-width:900px; margin-inline:auto;}
-.band .photo{aspect-ratio:5/2;}
+/* One contained band per page, inset from the margins - never edge to edge.
+   12:5 rather than a deeper letterbox, so heads stay inside the frame. */
+.band-section{padding-block:36px; border-bottom:1px solid var(--rule);}
+@media (min-width:860px){ .band-section{padding-block:48px;} }
+.band{margin:0; max-width:720px; margin-inline:auto;}
+.band .photo{aspect-ratio:12/5;}
 .band-note{
   padding-top:12px;
   font-family:var(--body); font-size:12px; letter-spacing:.09em;
