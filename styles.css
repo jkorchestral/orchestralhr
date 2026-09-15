@@ -223,6 +223,7 @@ blockquote.pull cite{
 @media (min-width:720px){ .dl-row{grid-template-columns:260px 1fr; gap:24px;} }
 .dl-term{font-family:var(--display); font-size:20px; font-weight:700;}
 .dl-desc{color:var(--ink-soft); font-size:15.5px; max-width:56ch;}
+#approach .dl-desc::before{content:"♪"; color:var(--crimson); font-family:var(--display); margin-right:8px;}
 
 .checklist{list-style:none; margin:0; padding:0; display:grid; gap:14px; grid-template-columns:1fr;}
 @media (min-width:720px){ .checklist{grid-template-columns:1fr 1fr;} }
