@@ -278,3 +278,68 @@ footer{padding-block:36px;}
 .foot-links a{text-decoration:none;}
 .foot-links a:hover{color:var(--crimson-deep);}
 .foot-fine{font-family:var(--body); font-size:12px; color:var(--ink-faint); margin-top:18px;}
+
+/* ---------- Photography ----------
+   Every photo slot is sized by CSS (aspect-ratio + object-fit:cover), so a
+   replacement image can be any shape and will still crop to fit. Nudge a crop
+   with style="object-position: center 30%" on the individual <img>. */
+.photo{
+  width:100%;
+  object-fit:cover;
+  border-radius:2px;
+  background:var(--paper-raised);
+}
+
+/* Hero: copy beside a portrait photo, with an offset crimson frame */
+.hero-grid{display:grid; grid-template-columns:1fr; gap:38px; align-items:center;}
+@media (min-width:900px){ .hero-grid{grid-template-columns:1.05fr .95fr; gap:60px;} }
+.hero-figure{margin:0; position:relative; isolation:isolate;}
+.hero-figure .photo{
+  aspect-ratio:16/11; position:relative; z-index:1;
+  border:1px solid var(--rule);
+}
+@media (min-width:900px){ .hero-figure .photo{aspect-ratio:4/5;} }
+.hero-figure::after{
+  content:""; position:absolute; z-index:0; inset:14px -14px -14px 14px;
+  border:1px solid var(--crimson); border-radius:2px;
+}
+
+/* Full-bleed photo band used as a section break */
+.band{margin:0; border-bottom:1px solid var(--rule);}
+.band .photo{aspect-ratio:16/9; border-radius:0;}
+@media (min-width:860px){ .band .photo{aspect-ratio:21/8;} }
+.band-note{
+  max-width:1120px; margin-inline:auto; padding:14px 20px 16px;
+  font-family:var(--body); font-size:12px; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--ink-faint);
+}
+@media (min-width:640px){ .band-note{padding-inline:40px;} }
+.band-note .note{margin-right:9px;}
+
+/* Contained variant, for sitting inside a .wrap */
+.band--inset{border-bottom:none;}
+.band--inset .photo{aspect-ratio:16/7; border:1px solid var(--rule); border-radius:2px;}
+.band--inset .band-note{padding-inline:0; max-width:none;}
+
+/* Photo beside a block of copy */
+.split{display:grid; grid-template-columns:1fr; gap:30px; align-items:center;}
+.split .checklist{grid-template-columns:1fr;}
+@media (min-width:860px){ .split{grid-template-columns:1fr 1fr; gap:52px;} }
+.split-figure{margin:0;}
+.split-figure .photo{aspect-ratio:4/3; border:1px solid var(--rule);}
+@media (min-width:860px){ .split--media-first .split-figure{order:-1;} }
+
+/* Founder portrait gets a soft crimson offset block */
+.founder-mark{box-shadow:12px 12px 0 0 rgba(188,31,62,.10);}
+
+/* CTA band: photo behind a heavy ink wash (keeps white text at AA contrast) */
+.cta-band{position:relative; isolation:isolate; overflow:hidden;}
+.cta-band::before{
+  content:""; position:absolute; inset:0; z-index:-1;
+  background-image:
+    linear-gradient(100deg, rgba(50,51,53,.95) 0%, rgba(50,51,53,.89) 52%, rgba(50,51,53,.82) 100%),
+    url("assets/cta-backdrop.jpg");
+  background-size:cover, cover;
+  background-position:center, center 34%;
+  background-repeat:no-repeat;
+}
