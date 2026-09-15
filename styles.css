@@ -294,11 +294,11 @@ footer{padding-block:36px;}
 
 /* Hero: photo beside the headline, natural landscape proportions */
 .hero-grid{display:grid; grid-template-columns:1fr; gap:34px; align-items:center;}
-@media (min-width:900px){ .hero-grid{grid-template-columns:1.1fr .9fr; gap:52px;} }
+@media (min-width:860px){ .hero-grid{grid-template-columns:3fr 1fr; gap:40px;} }
 .hero-figure{margin:0; position:relative; isolation:isolate;}
 .hero-figure .photo{aspect-ratio:3/2; position:relative; z-index:1;}
 .hero-figure::after{
-  content:""; position:absolute; z-index:0; inset:12px -12px -12px 12px;
+  content:""; position:absolute; z-index:0; inset:10px -10px -10px 10px;
   border:1px solid var(--crimson); border-radius:2px;
 }
 
@@ -317,7 +317,7 @@ footer{padding-block:36px;}
    12:5 rather than a deeper letterbox, so heads stay inside the frame. */
 .band-section{padding-block:36px; border-bottom:1px solid var(--rule);}
 @media (min-width:860px){ .band-section{padding-block:48px;} }
-.band{margin:0; max-width:720px; margin-inline:auto;}
+.band{margin:0; max-width:600px; margin-inline:auto;}
 .band .photo{aspect-ratio:12/5;}
 .band-note{
   padding-top:12px;
