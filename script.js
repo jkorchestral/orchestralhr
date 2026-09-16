@@ -41,7 +41,7 @@
       closeMenu();
     });
 
-    var desktopQuery = window.matchMedia("(min-width: 860px)");
+    var desktopQuery = window.matchMedia("(min-width: 980px)");
     desktopQuery.addEventListener("change", function (event) {
       if (event.matches) closeMenu();
     });
