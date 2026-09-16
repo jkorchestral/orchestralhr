@@ -225,6 +225,26 @@ blockquote.pull cite{
 .dl-desc{color:var(--ink-soft); font-size:15.5px; max-width:56ch;}
 #approach .dl-desc::before{content:"♪"; color:var(--crimson); font-family:var(--display); margin-right:8px;}
 
+/* Service tiers (O-Advisory / O-Flex) */
+.tier{margin-bottom:28px;}
+.tier .eyebrow{display:block;}
+.tier h3{font-size:clamp(1.15rem,2.4vw,1.5rem); margin-top:8px;}
+.tier p{margin-top:12px; color:var(--ink-soft); font-size:16px; max-width:64ch;}
+.tier-break{margin-top:56px; padding-top:44px; border-top:1px solid var(--rule);}
+
+/* Lettered definition row, echoing the circled .doc-num */
+.dl-term--lettered{display:flex; align-items:center; gap:10px;}
+.dl-mark{
+  flex:none;
+  display:inline-flex; align-items:center; justify-content:center;
+  width:23px; height:23px;
+  border:1.5px solid var(--crimson); border-radius:50%;
+  font-family:var(--body); font-weight:700; font-size:11px; line-height:1;
+  color:var(--crimson);
+}
+.dl-desc .checklist{grid-template-columns:1fr; gap:11px;}
+.dl-desc .checklist li{font-size:15px;}
+
 .checklist{list-style:none; margin:0; padding:0; display:grid; gap:14px; grid-template-columns:1fr;}
 @media (min-width:720px){ .checklist{grid-template-columns:1fr 1fr;} }
 .checklist li{display:flex; gap:12px; font-size:15.5px; color:var(--ink-soft); align-items:start;}
