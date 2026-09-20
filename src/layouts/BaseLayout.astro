@@ -1,0 +1,200 @@
+---
+import "../styles/global.css";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+const {
+  title,
+  description,
+  current = "",
+  ogImage = "/assets/logo.png",
+} = Astro.props;
+
+// Astro.url.pathname already carries the base; ogImage is authored without it,
+// so it has to go through url() before being made absolute.
+const origin = Astro.site ?? "https://jkorchestral.github.io";
+const canonical = new URL(Astro.url.pathname, origin);
+const ogUrl = new URL(url(ogImage), origin);
+import { url } from "../lib/url";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Orchestral HR Consulting" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogUrl.href} />
+    <meta property="og:url" content={canonical.href} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#0A0D12" />
+
+    <!-- Marks that JS is alive, so the reveal styles below only hide content
+         we can guarantee we will show again. No JS = everything visible. -->
+    <script is:inline>document.documentElement.classList.add("js");</script>
+
+    <link rel="icon" type="image/png" href={url("/assets/favicon.png")} />
+    <link rel="preload" as="font" type="font/woff2" href={url("/fonts/quicksand-var.woff2")} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={url("/fonts/montserrat-var.woff2")} crossorigin />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="progress" aria-hidden="true"></div>
+    <Nav current={current} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const io = "IntersectionObserver" in window;
+
+      /* ---------- 1. scroll reveal, with staggered children ----------
+         Deliberately a scroll sweep rather than IntersectionObserver: an
+         observer only fires on an intersection *change*, so a jump-scroll
+         (anchor link, End key, fast flick) can skip an element entirely and
+         leave it invisible forever. A sweep just asks "are you past the line
+         yet?" and cannot miss. The list shrinks as elements reveal. */
+      const revealTargets = Array.from(document.querySelectorAll(".reveal, .stagger, .hero, .page-hero, .pull"));
+
+      // index the children of each stagger container so CSS can delay them in turn
+      document.querySelectorAll(".stagger").forEach((group) => {
+        Array.from(group.children).forEach((child, i) => {
+          child.style.setProperty("--i", String(i));
+        });
+      });
+
+      let pending = revealTargets;
+
+      const sweep = () => {
+        if (!pending.length) return;
+        const line = window.innerHeight * 0.92;
+        const remaining = [];
+        for (const el of pending) {
+          if (el.getBoundingClientRect().top < line) el.classList.add("in");
+          else remaining.push(el);
+        }
+        pending = remaining;
+      };
+
+      if (reduced) {
+        revealTargets.forEach((el) => el.classList.add("in"));
+        pending = [];
+      } else {
+        // Driven by scroll/resize/load rather than requestAnimationFrame: rAF is
+        // tied to frame production, which is not guaranteed (background tabs,
+        // headless renderers). Content visibility must not depend on it.
+        let scheduled = false;
+        const onScroll = () => {
+          if (scheduled) return;
+          scheduled = true;
+          setTimeout(() => { scheduled = false; sweep(); }, 16);
+        };
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll, { passive: true });
+        window.addEventListener("load", sweep);
+        sweep();
+        // belt and braces for late-loading fonts/images shifting layout
+        setTimeout(sweep, 120);
+        setTimeout(sweep, 600);
+      }
+
+      /* ---------- 2. count up the big figures ---------- */
+      const counters = document.querySelectorAll(".count-up");
+
+      if (!reduced && io && counters.length) {
+        const countObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              const el = entry.target;
+              countObserver.unobserve(el);
+
+              const full = el.textContent;
+              const match = full.match(/([\d][\d,]*)/);
+              if (!match) return;
+
+              const target = Number(match[1].replace(/,/g, ""));
+              if (!Number.isFinite(target)) return;
+
+              const before = full.slice(0, match.index);
+              const after = full.slice(match.index + match[0].length);
+              const duration = 1100;
+              const started = performance.now();
+
+              const tick = (now) => {
+                const t = Math.min((now - started) / duration, 1);
+                // ease-out cubic: fast start, soft landing
+                const eased = 1 - Math.pow(1 - t, 3);
+                const value = Math.round(target * eased).toLocaleString("en-CA");
+                el.textContent = before + value + after;
+                if (t < 1) requestAnimationFrame(tick);
+              };
+
+              el.textContent = before + "0" + after;
+              requestAnimationFrame(tick);
+            });
+          },
+          { threshold: 0.5 }
+        );
+        counters.forEach((el) => countObserver.observe(el));
+      }
+
+      /* ---------- 3. progress bar + photo parallax (one rAF loop) ---------- */
+      if (!reduced) {
+        const bar = document.querySelector(".progress");
+        const bandImages = Array.from(document.querySelectorAll(".band img"));
+        let queued = false;
+
+        const onFrame = () => {
+          queued = false;
+
+          if (bar) {
+            const max = document.documentElement.scrollHeight - window.innerHeight;
+            const pct = max > 0 ? window.scrollY / max : 0;
+            bar.style.transform = "scaleX(" + Math.min(Math.max(pct, 0), 1) + ")";
+          }
+
+          const vh = window.innerHeight;
+          bandImages.forEach((img) => {
+            const r = img.getBoundingClientRect();
+            if (r.bottom < 0 || r.top > vh) return;
+            // -1 (entering from below) .. 1 (leaving at top)
+            const progress = 1 - (r.top + r.height / 2) / (vh / 2 + r.height / 2);
+            img.style.transform = "scale(1.08) translateY(" + (progress * 16).toFixed(2) + "px)";
+          });
+        };
+
+        const request = () => {
+          if (queued) return;
+          queued = true;
+          requestAnimationFrame(onFrame);
+        };
+
+        window.addEventListener("scroll", request, { passive: true });
+        window.addEventListener("resize", request, { passive: true });
+        request();
+      }
+
+      /* ---------- 4. pointer-follow glow on cards ---------- */
+      if (!reduced && window.matchMedia("(hover: hover)").matches) {
+        document.querySelectorAll(".card, .stat").forEach((card) => {
+          card.addEventListener("pointermove", (e) => {
+            const r = card.getBoundingClientRect();
+            card.style.setProperty("--mx", ((e.clientX - r.left) / r.width) * 100 + "%");
+            card.style.setProperty("--my", ((e.clientY - r.top) / r.height) * 100 + "%");
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,188 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Credit from "../components/Credit.astro";
+import HeroCanvas from "../components/HeroCanvas.astro";
+import CtaBand from "../components/CtaBand.astro";
+
+const BOOK = "mailto:Valerie@orchestralhr.ca?subject=HR%20Strategy%20Conversation";
+
+const steps = [
+  { term: "Diagnose",  desc: "Review current state: existing documents, processes, and how things actually work in practice, not just on paper." },
+  { term: "Recommend", desc: "Deliver what you can act on: rebuilt templates, a standardized process, or a framework scoped to your structure, not a generic playbook." },
+  { term: "Implement", desc: "Partnering directly with leaders to embed people practices that not only work but stick." },
+];
+
+const offerings = [
+  { term: "HR Advisory Services", desc: "Strategic counsel on people decisions, from org structure design to workforce planning, compensation, compliance, and M&A integration. Linking people, processes and technology. Creating a future-proof people strategy that supports your goals." },
+  { term: "HR Project Work", desc: "Defined scope, defined outcome. Orchestral leads or supports HR projects of any size, with clear milestones, governance, and a handover your team can own." },
+  { term: "Talent Acquisition & Talent Management", desc: "From talent attraction to sourcing strategy, hiring, succession planning, and performance management. Building real organizational capabilities to get the best out of your people." },
+  { term: "Employee Relations & Governance", desc: "Hands-on support for complex employee relations matters, investigations, and policy governance, with risk mitigation built in." },
+  { term: "Coaching & L&D", desc: "Leadership coaching and development, that closes skill gaps and builds a stronger bench. Leader enablement to drive growth and future-proof your business." },
+];
+
+const signals = [
+  "Growing headcount, or preparing for a growth phase",
+  "An overwhelmed HR team of one, or an established HR team that needs added capacity or specialist expertise",
+  "Recurring employee relations issues without a consistent process",
+  "Outdated HR infrastructure: policies, documentation, performance management",
+  "Hiring rapidly and needs recruitment support",
+  "Leadership transition, restructuring, or M&A underway",
+  "A defined HR project that needs an experienced lead, such as an HRIS implementation, organization redesign, or integration",
+];
+import { url } from "../lib/url";
+---
+
+<BaseLayout
+  title="Orchestral HR Consulting | Embedded Executive HR for Growing Businesses"
+  description="Orchestral HR Consulting delivers HR expertise to organizations of every size: fractional, onsite, retainer and on demand support, including HR project work."
+  current="home"
+>
+  <section class="hero">
+    <HeroCanvas />
+    <div class="wrap hero-grid">
+      <div>
+        <h1 class="display">Every business needs someone <em>conducting</em> the people side.</h1>
+        <p class="hero-sub">
+          Human resource expertise delivered the way your organization needs it. Orchestral partners
+          with growing businesses, established mid sized companies, and Fortune 500 enterprises,
+          providing fractional, on demand and retainer HR support, as well as focused HR project work,
+          from executive advisory to hands on execution, without adding permanent headcount.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href={BOOK}>Book an HR Strategy Conversation <span class="arr">&rarr;</span></a>
+          <a class="btn btn-ghost" href={url("/services/")}>Review the offer</a>
+        </div>
+      </div>
+      <figure class="hero-figure">
+        <span class="shot">
+          <img src={url("/assets/hero-team-meeting.jpg")} width="600" height="400"
+             fetchpriority="high" decoding="async"
+             alt="Two colleagues in conversation across a table in warm afternoon light." />
+        </span>
+        <Credit photographer="charlesdeluvio" href="https://unsplash.com/photos/person-sitting-in-a-chair-in-front-of-a-man-rRWiVQzLm7k" />
+      </figure>
+    </div>
+  </section>
+
+  <section class="section section--flush">
+    <div class="wrap">
+      <div class="split split--media-first reveal">
+        <blockquote class="pull">
+          &ldquo;Growth outpaces process. Managers are promoted faster than they are developed.
+          The systems that worked at 15 employees quietly stop working at 80. The ones built for
+          5,000 strain under every merger, restructure, and new platform.&rdquo;
+        </blockquote>
+        <figure>
+          <span class="shot">
+            <img src={url("/assets/review-session.jpg")} width="600" height="401" loading="lazy" decoding="async"
+               alt="Two colleagues reviewing notes together at a table by a window." />
+          </span>
+          <Credit photographer="Christina @ wocintechchat.com" href="https://unsplash.com/photos/4PU-OC8sW98" />
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="approach">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-num">01</span>
+        <h2 class="section-title">How We Work</h2>
+        <p class="section-dek">Every engagement follows the same three steps, regardless of scope.</p>
+      </div>
+      <div class="rows stagger">
+        {steps.map((s) => (
+          <div class="row">
+            <div class="row-term">{s.term}</div>
+            <div class="row-desc">{s.desc}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--flush">
+    <div class="wrap">
+      <figure class="band reveal">
+        <img src={url("/assets/band-bright-office.jpg")} width="1200" height="500" loading="lazy" decoding="async"
+             alt="Two colleagues talking across their laptops in a bright, open brick-walled office." />
+        <figcaption><span class="note">&#9834;</span> Diagnose &middot; Recommend &middot; Implement</figcaption>
+      </figure>
+      <Credit photographer="TheStandingDesk" href="https://unsplash.com/photos/two-women-sitting-on-a-bed-using-laptops-exbWFnMcoI0" />
+    </div>
+  </section>
+
+  <section class="section" id="services">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-num">02</span>
+        <h2 class="section-title">What Orchestral HR Offers</h2>
+        <p class="section-dek">
+          Full lifecycle HR support, delivered by a bench of vetted HR leaders and experts.{" "}
+          <a href={url("/services/")}>View all services &rarr;</a>
+        </p>
+      </div>
+      <div class="rows stagger">
+        {offerings.map((o) => (
+          <div class="row">
+            <div class="row-term">{o.term}</div>
+            <div class="row-desc">{o.desc}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="who">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-num">03</span>
+        <h2 class="section-title">Who We Work With</h2>
+        <p class="section-dek">
+          Organizations of every size, from small and mid sized businesses to Fortune 500
+          enterprises, that need senior HR capacity, specialist expertise, or a defined project
+          delivered well.
+        </p>
+      </div>
+      <div class="split reveal">
+        <ul class="checklist stagger">
+          {signals.map((s) => <li>{s}</li>)}
+        </ul>
+        <figure>
+          <span class="shot">
+            <img src={url("/assets/lunchroom-coffee-chat.jpg")} width="600" height="400" loading="lazy" decoding="async"
+               alt="Three colleagues laughing over coffee in an office kitchen." />
+          </span>
+          <Credit photographer="Maurice Sardison" href="https://unsplash.com/photos/TTvedfJt08U" />
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="founder">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-num">04</span>
+        <h2 class="section-title">The Founder</h2>
+      </div>
+      <div class="founder reveal">
+        <img class="founder-portrait" src={url("/assets/valerie-khan.jpg")} width="200" height="200"
+             alt="Valerie Khan, Founder of Orchestral HR Consulting" loading="lazy" />
+        <div>
+          <h3>Valerie Khan</h3>
+          <span class="role">Founder, Orchestral HR Consulting</span>
+          <p>
+            Valerie brings over 20 years of executive HR leadership to every engagement, most recently
+            as Vice President of HR at a national insurance brokerage network, partnering directly with
+            company presidents on organizational effectiveness, talent strategy, and culture transformation
+            through multiple M&amp;A integrations. Her career spans regulated industries, complex union
+            environments, and high-growth corporate settings at CIBC, RSA, GE, BMO, CPP Investment Board,
+            Navacord, and the Toronto Police Service. <a href={url("/about/")}>Read her full story &rarr;</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>

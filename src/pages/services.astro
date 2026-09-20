@@ -1,0 +1,167 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Credit from "../components/Credit.astro";
+import CtaBand from "../components/CtaBand.astro";
+
+const steps = [
+  { term: "Diagnose",  desc: "A diagnostic phase reviews current state: existing documents, processes, and leadership discussion to gain a deeper understanding of how things actually work in practice across the business, not just on paper." },
+  { term: "Recommend", desc: "A recommendation phase delivers what you can act on to make the most impact, such as rebuilt templates, a standardized process, defined criteria, or a new framework, scoped to fit your actual structure rather than a generic template." },
+  { term: "Implement", desc: "The implementation phase involves partnering directly with leaders to embed people practices that not only work but stick." },
+];
+
+const advisory = [
+  {
+    term: "Strategic Advisory",
+    items: [
+      "Strategic workforce planning",
+      "Organizational design and scaling strategy",
+      "M&A integration and culture alignment",
+      "Executive coaching and succession planning",
+      "HR technology",
+    ],
+  },
+  {
+    term: "Program & People Management",
+    items: [
+      "Performance management systems and frameworks",
+      "Compensation and total rewards strategy (excludes payroll processing)",
+      "Policy development and compliance programs (ESA, OHSA, AODA)",
+      "Engagement, retention, and culture initiatives",
+      "Change management and communications",
+    ],
+  },
+  {
+    term: "Tactical & Hands-On Support",
+    items: [
+      "Leader coaching on performance improvement plans",
+      "Termination guidance and hands-on support",
+      "Employee relations case support",
+      "HR help desk with ready-to-use templates and documents",
+    ],
+  },
+  {
+    term: "Recruitment & Talent",
+    items: [
+      "Talent acquisition and recruitment strategy",
+      "Recruitment execution support: job postings, screening, interviews, and offer management",
+    ],
+  },
+];
+import { url } from "../lib/url";
+---
+
+<BaseLayout
+  title="Services | Orchestral HR Consulting"
+  description="From executive strategy to tactical, hands-on execution, delivered by a bench of vetted HR leaders and experts."
+  current="services"
+  ogImage="/assets/services-working-session.jpg"
+>
+  <section class="page-hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Services</span>
+        <h1>Practical HR services to get the best out of your people.</h1>
+        <p class="hero-sub">
+          From executive strategy to tactical, hands-on execution delivered by a bench of
+          vetted HR leaders and experts.
+        </p>
+      </div>
+      <figure class="hero-figure">
+        <span class="shot">
+          <img src={url("/assets/services-working-session.jpg")} width="600" height="400"
+             fetchpriority="high" decoding="async"
+             alt="One colleague pointing something out on a laptop screen to another." />
+        </span>
+        <Credit photographer="Priscilla Du Preez" href="https://unsplash.com/photos/two-people-sitting-at-a-table-with-laptops-nNMBa7Y1Ymk" />
+      </figure>
+    </div>
+  </section>
+
+  <div class="staff" role="presentation"><span>&#9834;</span></div>
+
+  <section class="section section--flush" id="approach">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-num">01</span>
+        <h2 class="section-title">How We Work</h2>
+        <p class="section-dek">
+          Every workstream Orchestral takes on follows the same three-step approach, regardless of
+          scope. Nothing gets rebuilt or recommended until we understand how your business actually operates.
+        </p>
+      </div>
+      <div class="rows stagger">
+        {steps.map((s) => (
+          <div class="row">
+            <div class="row-term">{s.term}</div>
+            <div class="row-desc">{s.desc}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="offerings">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-num">02</span>
+        <h2 class="section-title">What Orchestral HR Offers</h2>
+      </div>
+
+      <div class="card reveal" style="margin-bottom:26px;">
+        <span class="card-mark">O-ADVISORY</span>
+        <h3>Core Services</h3>
+        <p>
+          Fractional, retainer and on demand HR support plus HR project work, from executive strategy
+          to hands on execution, for organizations of every size. Orchestral leads with a people and
+          culture strategy mind set to find solutions that create the most impact and value.
+        </p>
+      </div>
+
+      <div class="rows stagger">
+        {advisory.map((a) => (
+          <div class="row">
+            <div class="row-term">{a.term}</div>
+            <div class="row-desc">
+              <ul class="checklist">
+                {a.items.map((i) => <li>{i}</li>)}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="card reveal" style="margin-top:26px;">
+        <span class="card-mark">O-FLEX</span>
+        <h3>On-Demand Access</h3>
+        <p>For on demand expertise and focused, project based work. A defined scope, a defined outcome, and a defined timeline, led or supported by senior HR expertise.</p>
+        <blockquote class="pull" style="margin-top:22px;">
+          O-FLEX is the answer to &ldquo;I just need an HR leader for this one project&rdquo;.
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="delivery">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-num">03</span>
+        <h2 class="section-title">How Support Is Delivered</h2>
+      </div>
+      <p class="section-dek reveal" style="margin-top:0;">
+        The work is delivered by a bench of vetted senior HR consultants and specialists with
+        expertise in performance management, talent acquisition, leadership development, compensation,
+        along with sector-specific expertise, brought in exactly when an engagement calls for it.
+      </p>
+
+      <figure class="figure-wide reveal">
+        <span class="shot">
+          <img src={url("/assets/services-orchestra.jpg")} width="1440" height="630" loading="lazy" decoding="async"
+             alt="Orchestral players and open sheet music on stands under warm stage light." />
+        </span>
+        <Credit photographer="Kazuo ota" href="https://unsplash.com/photos/a-conductor-and-orchestra-performing-in-a-concert-tch7GUtzM4Q" />
+      </figure>
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>

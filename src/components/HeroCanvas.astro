@@ -1,0 +1,266 @@
+---
+// `faint` scales how present the score is: 0.45 nearly subliminal,
+// 0.80 second-glance, 1.30 subtle-but-legible. The /lab page flips it live.
+const { faint = 0.9, thick = 0.0072, wisp = 0.94, soft = 0.65 } = Astro.props;
+---
+
+<!--
+/* Animated hero background: flowing "conductor's waves" rendered with a raw
+   WebGL fragment shader. No three.js — a fullscreen quad needs no scene graph,
+   so this stays ~3KB instead of ~600KB on the critical path.
+   Falls back to a static gradient when WebGL or motion is unavailable. */
+-->
+
+<div class="hero-fallback" aria-hidden="true"></div>
+<canvas class="hero-canvas" id="heroCanvas" data-faint={String(faint)} data-thick={String(thick)} data-wisp={String(wisp)} data-soft={String(soft)} aria-hidden="true"></canvas>
+
+
+<script>
+  const canvas = document.getElementById("heroCanvas") as HTMLCanvasElement | null;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (canvas && !reduced) {
+    const gl =
+      (canvas.getContext("webgl", { antialias: false, alpha: true }) as WebGLRenderingContext | null) ||
+      (canvas.getContext("experimental-webgl") as WebGLRenderingContext | null);
+
+    if (gl) {
+      const VERT = `
+        attribute vec2 a_pos;
+        void main(){ gl_Position = vec4(a_pos, 0.0, 1.0); }
+      `;
+
+      const FRAG = `
+        precision highp float;
+        uniform vec2  u_res;
+        uniform float u_time;
+        uniform float u_faint;   // overall presence
+        uniform float u_thick;   // half-width of a ruled line
+        uniform float u_wisp;    // 0 = solid rule, 1 = dissolves into fragments
+        uniform float u_soft;    // 0 = crisp edge, 1 = edgeless haze
+
+        float hash(vec2 p){
+          return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+        }
+        float noise(vec2 p){
+          vec2 i = floor(p), f = fract(p);
+          vec2 u = f * f * (3.0 - 2.0 * f);
+          return mix(mix(hash(i + vec2(0.0,0.0)), hash(i + vec2(1.0,0.0)), u.x),
+                     mix(hash(i + vec2(0.0,1.0)), hash(i + vec2(1.0,1.0)), u.x), u.y);
+        }
+        float fbm(vec2 p){
+          float v = 0.0, a = 0.5;
+          for(int i = 0; i < 4; i++){ v += a * noise(p); p *= 2.02; a *= 0.5; }
+          return v;
+        }
+
+        const float LINE_GAP = 0.056;   // between the five lines of the staff
+        const float BEAT     = 0.430;   // note spacing
+
+        // Centre of the single staff, in score space.
+        // waveK is set from the viewport aspect in main() so the staff always
+        // shows the same number of peaks and valleys, whatever the window width.
+        float staffY(float x, float t, float waveK){
+          return sin(x * waveK + 1.10) * 0.086
+               + sin(x * waveK * 2.10 - 0.40) * 0.020
+               + (noise(vec2(x * 0.55, 5.3)) - 0.5) * 0.055
+               + sin(t * 0.070) * 0.022;
+        }
+
+        void main(){
+          vec2 frag = gl_FragCoord.xy;
+          vec2 p = (frag - 0.5 * u_res) / u_res.y;
+          float t = u_time;
+
+          vec3 col = vec3(0.039, 0.051, 0.071);
+
+          // drifting mist
+          col += vec3(0.045, 0.017, 0.029) * fbm(p * 1.5 + vec2(t * 0.028, 0.0)) * 1.00;
+          col += vec3(0.028, 0.032, 0.046) * fbm(p * 0.7 - vec2(t * 0.017, t * 0.006)) * 1.00;
+
+          float scroll = t * 0.042;
+          float sx = p.x + scroll;
+          float fade = smoothstep(1.40, 0.10, abs(p.x));
+
+          // 1.5 cycles across the visible width => three alternating extrema
+          float aspect = u_res.x / max(u_res.y, 1.0);
+          float waveK = 6.2831853 * 1.5 / max(aspect, 0.35);
+
+          float yc = staffY(sx, t, waveK);
+
+          // broad wash behind the staff
+          float dw = abs(p.y - yc);
+          col += vec3(0.760, 0.230, 0.360) * (0.0260 / (dw * dw + 0.0260)) * 0.34;
+
+          // ---- the five ruled lines ----
+          for(int j = 0; j < 5; j++){
+            float fj = float(j);
+            float y = yc + (fj - 2.0) * LINE_GAP;
+
+            // the rule wanders off its own path, so it is never a clean
+            // geometric curve
+            float jitter = (fbm(vec2(sx * 5.5 + fj * 19.0, fj * 2.7 + t * 0.05)) - 0.5) * 0.022;
+            float d = abs(p.y - (y + jitter));
+
+            // width swells and thins along the length rather than being uniform
+            float wob = fbm(vec2(sx * 2.1 + fj * 7.0, fj * 3.1 + t * 0.035));
+            float w = u_thick * mix(0.75, 2.30, u_soft) * (0.45 + 2.10 * wob);
+
+            // Edgeless falloff. A smoothstep band has a boundary - you can see
+            // where the line stops - and no amount of dimming hides that. This
+            // is a haze that tends to zero without ever cutting off.
+            float core = (w * w) / (d * d + w * w);
+            // a high exponent keeps a defined core; a low one lets it bleed away
+            core = pow(core, mix(3.20, 1.00, u_soft));
+
+            // wispiness: the rule thins and breaks along its length, and the
+            // pattern travels with the page rather than sitting still
+            float cloud = fbm(vec2(sx * 1.45 + fj * 11.0, fj * 3.7 + t * 0.035));
+            float wisp  = mix(1.0, smoothstep(0.31, 0.80, cloud), u_wisp);
+
+            // tone runs slate -> crimson down the staff
+            vec3 tint = mix(vec3(0.520, 0.610, 0.700),
+                            vec3(0.940, 0.330, 0.430), fj / 4.0);
+
+            col += tint * core * wisp * fade * 0.30 * u_faint;
+          }
+
+          // ---- a few notes sitting on the lines ----
+          float cell = floor(sx / BEAT);
+          for(int k = 0; k < 3; k++){
+            float c = cell + float(k) - 1.0;
+            if(hash(vec2(c, 23.0)) < 0.30) continue;
+
+            float pit = floor((noise(vec2(c * 0.5, 9.0)) - 0.5) * 7.0 + 0.5);
+            float nx  = (c + 0.5) * BEAT;
+            float ny  = staffY(nx, t, waveK) + pit * (LINE_GAP * 0.5);
+            vec2  q   = vec2(p.x - (nx - scroll), p.y - ny);
+
+            float ca = cos(-0.34), sa = sin(-0.34);
+            vec2 qr = vec2(q.x * ca - q.y * sa, q.x * sa + q.y * ca);
+            float dh = length(qr / vec2(0.0150, 0.0102)) - 1.0;
+            float head = smoothstep(0.62, -0.12, dh);
+
+            float dir   = (pit > 0.0) ? -1.0 : 1.0;
+            float body  = smoothstep(u_thick * 0.9, 0.0, abs(q.x - 0.0135 * dir));
+            float along = q.y * dir;
+            float stem  = body * smoothstep(-0.002, 0.004, along)
+                               * smoothstep(0.075, 0.056, along);
+
+            // notes stay a touch more present than the rules, but share the wisp
+            float ncloud = fbm(vec2(nx * 1.45, t * 0.035 + 2.0));
+            float nwisp  = mix(1.0, smoothstep(0.20, 0.68, ncloud), u_wisp * 0.7);
+
+            vec3 ntint = vec3(0.960, 0.520, 0.620);
+            col += ntint * (head + stem * 0.8) * nwisp * fade * 0.52 * u_faint;
+            col += ntint * (0.00055 / (dot(q, q) + 0.00055)) * nwisp * fade * 0.10 * u_faint;
+          }
+
+          // vignette + grain
+          float vig = smoothstep(1.25, 0.25, length(p * vec2(0.78, 1.0)));
+          col *= 0.38 + 0.60 * vig;
+          col += (hash(frag + fract(t)) - 0.5) * 0.016;
+
+          gl_FragColor = vec4(col, 1.0);
+        }
+      `;
+
+      const compile = (type: number, src: string) => {
+        const s = gl.createShader(type)!;
+        gl.shaderSource(s, src);
+        gl.compileShader(s);
+        if (gl.getShaderParameter(s, gl.COMPILE_STATUS)) return s;
+        // surface the log rather than silently falling back to the gradient
+        canvas.dataset.shaderError = (gl.getShaderInfoLog(s) || "unknown").slice(0, 400);
+        return null;
+      };
+
+      const vs = compile(gl.VERTEX_SHADER, VERT);
+      const fs = compile(gl.FRAGMENT_SHADER, FRAG);
+
+      if (vs && fs) {
+        const prog = gl.createProgram()!;
+        gl.attachShader(prog, vs);
+        gl.attachShader(prog, fs);
+        gl.linkProgram(prog);
+
+        if (gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+          gl.useProgram(prog);
+
+          const buf = gl.createBuffer();
+          gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+          gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+          const loc = gl.getAttribLocation(prog, "a_pos");
+          gl.enableVertexAttribArray(loc);
+          gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+          const uRes   = gl.getUniformLocation(prog, "u_res");
+          const uTime  = gl.getUniformLocation(prog, "u_time");
+          const uFaint = gl.getUniformLocation(prog, "u_faint");
+          const uThick = gl.getUniformLocation(prog, "u_thick");
+          const uWisp  = gl.getUniformLocation(prog, "u_wisp");
+          const uSoft  = gl.getUniformLocation(prog, "u_soft");
+
+          const resize = () => {
+            const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+            const w = Math.round(canvas.clientWidth  * dpr);
+            const h = Math.round(canvas.clientHeight * dpr);
+            if (canvas.width !== w || canvas.height !== h) {
+              canvas.width = w;
+              canvas.height = h;
+              gl.viewport(0, 0, w, h);
+            }
+            gl.uniform2f(uRes, canvas.width, canvas.height);
+          };
+
+          let raf = 0;
+          let running = false;
+          const start = performance.now();
+
+          const frame = (now: number) => {
+            resize();
+            gl.uniform1f(uTime, (now - start) / 1000);
+            // read per frame so the /lab switcher can change them live
+            gl.uniform1f(uFaint, parseFloat(canvas.dataset.faint || "0.8"));
+            gl.uniform1f(uThick, parseFloat(canvas.dataset.thick || "0.0072"));
+            gl.uniform1f(uWisp,  parseFloat(canvas.dataset.wisp  || "0.94"));
+            gl.uniform1f(uSoft,  parseFloat(canvas.dataset.soft  || "0.65"));
+            gl.drawArrays(gl.TRIANGLES, 0, 3);
+            raf = requestAnimationFrame(frame);
+          };
+
+          const play = () => {
+            if (running) return;
+            running = true;
+            raf = requestAnimationFrame(frame);
+          };
+          const pause = () => {
+            running = false;
+            cancelAnimationFrame(raf);
+          };
+
+          resize();
+            gl.uniform1f(uFaint, parseFloat(canvas.dataset.faint || "0.8"));
+            gl.uniform1f(uThick, parseFloat(canvas.dataset.thick || "0.0072"));
+            gl.uniform1f(uWisp,  parseFloat(canvas.dataset.wisp  || "0.94"));
+            gl.uniform1f(uSoft,  parseFloat(canvas.dataset.soft  || "0.65"));
+          gl.drawArrays(gl.TRIANGLES, 0, 3);
+          canvas.classList.add("ready");
+          play();
+
+          window.addEventListener("resize", resize, { passive: true });
+
+          // don't burn battery when the hero is offscreen or the tab is hidden
+          new IntersectionObserver(
+            (entries) => (entries[0].isIntersecting && !document.hidden ? play() : pause()),
+            { threshold: 0 }
+          ).observe(canvas);
+
+          document.addEventListener("visibilitychange", () =>
+            document.hidden ? pause() : play()
+          );
+        }
+      }
+    }
+  }
+</script>

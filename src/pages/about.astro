@@ -1,0 +1,144 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Credit from "../components/Credit.astro";
+import CtaBand from "../components/CtaBand.astro";
+
+const apart = [
+  { t: "Embedded, not transactional.", d: "Orchestral operates as an extension of the leadership team, whether the engagement is a retainer, an onsite placement, or a defined project. Context and trust compound over time instead of resetting with every engagement, and even project work is delivered with your culture and your people in mind." },
+  { t: "Human resource expertise at every stage.", d: "Clients get direct access to senior HR leadership, as complex decisions require executive-level thinking, not generic advice." },
+  { t: "Subject matter experts behind every engagement.", d: "Orchestral's bench includes specialists in performance management, learning & development, talent, and sector-specific expertise, deployed exactly when the work calls for it." },
+  { t: "Built on diagnosis, not assumptions.", d: "Every partnership starts by understanding the current state before recommending a solution, so what gets built actually fits the business." },
+  { t: "Flexible by design.", d: "Support flexes with the business: heavier hours when active project work is underway, lighter once a workstream reaches steady-state advisory." },
+  { t: "Pragmatic and practical HR advice vs. red tape.", d: "Compliance is the floor, not the ceiling. HR governance is handled as a foundational layer under everything Orchestral does to mitigate people risk." },
+];
+import { url } from "../lib/url";
+---
+
+<BaseLayout
+  title="About | Orchestral HR Consulting"
+  description="Built on two decades of executive HR judgment. Orchestral builds the people systems, leadership capability, and cultural foundation organizations need at any scale."
+  current="about"
+  ogImage="/assets/about-band.jpg"
+>
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">About Orchestral</span>
+      <h1>Built on two decades of executive HR judgment.</h1>
+      <p class="lede" style="margin-top:20px;">
+        <span style="color:var(--crimson);">&#9839;</span> Orchestral: Building sound practices,
+        building strong teams, and creating harmony where there was noise. Consider this{" "}
+        <a href={url("/pitch/")} style="color:var(--crimson); font-weight:600;">our pitch</a>.
+      </p>
+    </div>
+  </section>
+
+  <div class="staff" role="presentation"><span>&#9834;</span></div>
+
+  <section class="section section--flush" id="why">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-num">01</span>
+        <h2 class="section-title">Why Orchestral</h2>
+      </div>
+      <div class="split reveal">
+        <div>
+          <p class="section-dek" style="margin-top:0;">
+            Orchestral exists because great companies rarely fail from a lack of ambition. They struggle
+            when the human side of the business does not evolve as fast as the business itself. Growth
+            outpaces process, managers are promoted faster than they are developed, and the systems that
+            once worked for 15 employees quietly stop working at 80. In larger organizations the same
+            gap shows up as structures built for one size that strain under every acquisition,
+            restructure, and new platform.
+          </p>
+          <p class="section-dek">Orchestral closes that gap.</p>
+          <p class="section-dek">
+            <strong style="color:var(--ink);">Our Promise:</strong> We build the people systems, leadership
+            capability, and cultural foundation that give organizations a genuine competitive advantage as
+            they grow, without losing what makes them great in the first place: their people.
+          </p>
+        </div>
+        <figure>
+          <span class="shot">
+            <img src={url("/assets/about-advisory-meeting.jpg")} width="600" height="400" loading="lazy" decoding="async"
+               alt="Three colleagues reviewing figures together in a meeting." />
+          </span>
+          <Credit photographer="Vitaly Gariev" href="https://unsplash.com/photos/a-group-of-people-sitting-around-a-table-RbYg6fKSfcY" />
+        </figure>
+      </div>
+      <blockquote class="pull reveal" style="margin-top:34px;">
+        &ldquo;Optimizing the people foundation that allows your business to perform at its best.&rdquo;
+      </blockquote>
+    </div>
+  </section>
+
+  <section class="section" id="different">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-num">02</span>
+        <h2 class="section-title">What Sets Orchestral Apart</h2>
+      </div>
+      <ul class="bullet-list stagger">
+        {apart.map((a) => (
+          <li><strong>{a.t}</strong> {a.d}</li>
+        ))}
+      </ul>
+      <blockquote class="pull reveal" style="margin-top:38px;">
+        &ldquo;Bringing value through talent strategy, leadership capability, and organizational
+        development. The people practice work that actually moves the business forward to build culture.&rdquo;
+      </blockquote>
+    </div>
+  </section>
+
+  <section class="section section--flush">
+    <div class="wrap">
+      <figure class="band reveal">
+        <img src={url("/assets/about-band.jpg")} width="1200" height="500" loading="lazy" decoding="async"
+             alt="Colleagues working through notes and documents together at a table." />
+        <figcaption><span class="note">&#9834;</span> Embedded, not transactional</figcaption>
+      </figure>
+      <Credit photographer="sarah b" href="https://unsplash.com/photos/a-few-people-working-at-a-table-BJqzjxwQhK8" />
+    </div>
+  </section>
+
+  <section class="section" id="founder">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-num">03</span>
+        <h2 class="section-title">The Founder</h2>
+      </div>
+      <blockquote class="pull reveal" style="margin-bottom:38px;">
+        &ldquo;Every business is only as strong as its people strategy.&rdquo;
+        <cite>Valerie Khan</cite>
+      </blockquote>
+      <div class="founder reveal">
+        <img class="founder-portrait" src={url("/assets/valerie-khan.jpg")} width="200" height="200"
+             alt="Valerie Khan, Founder of Orchestral HR Consulting" loading="lazy" />
+        <div>
+          <h3>Valerie Khan</h3>
+          <span class="role">Founder, Orchestral HR Consulting</span>
+          <p>
+            Valerie brings over 20 years of executive HR leadership to every client engagement, having
+            built and led people strategy for organizations ranging from Fortune 500 institutions to
+            fast-growing insurance and financial services firms. Most recently Vice President of Human
+            Resources at a national insurance brokerage network, Valerie partnered directly with company
+            presidents to drive organizational effectiveness, talent strategy, and culture transformation
+            across a multi-brand portfolio, successfully integrating multiple M&amp;A transactions and
+            driving performance while preserving the entrepreneurial spirit of each business.
+          </p>
+          <p>
+            Her career spans Navacord, CIBC, RSA, GE, BMO, CPP Investment Board, and the Toronto Police
+            Service, giving her a rare depth of experience across regulated industries, complex union
+            environments, manufacturing operations, and high-growth corporate settings.
+          </p>
+          <p>
+            Valerie works alongside leadership teams as an extension of the business, delivering both
+            strategic advisory and practical, on-the-ground execution so owners can focus on running their
+            companies while Orchestral handles the people side.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>

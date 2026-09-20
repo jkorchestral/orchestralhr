@@ -1,0 +1,9 @@
+---
+// A very small photo credit. Unsplash does not require attribution, but
+// crediting the photographer is the decent thing to do.
+const { photographer, href } = Astro.props;
+---
+
+<p class="credit">
+  Photo: <a href={href} target="_blank" rel="noopener noreferrer">{photographer}</a> on Unsplash
+</p>

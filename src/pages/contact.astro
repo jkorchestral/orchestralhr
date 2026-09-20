@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Credit from "../components/Credit.astro";
+
+// TODO: once Calendly is set up, replace this with the Calendly booking URL
+// (and drop the query string). It is referenced here, in Nav.astro and in
+// CtaBand.astro — three files instead of the old five pages.
+const BOOK = "mailto:Valerie@orchestralhr.ca?subject=HR%20Strategy%20Conversation";
+import { url } from "../lib/url";
+---
+
+<BaseLayout
+  title="Contact | Orchestral HR Consulting"
+  description="Book a conversation with Valerie Khan, a real look at what your business needs, no obligation."
+  current="contact"
+  ogImage="/assets/contact-meeting.jpg"
+>
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Contact</span>
+      <h1>Let&rsquo;s talk about your people strategy.</h1>
+      <p class="hero-sub">
+        Book a conversation with Valerie, a real look at what your business needs, no obligation.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--flush">
+    <div class="wrap">
+      <div class="contact-grid reveal">
+        <div>
+          <a class="btn btn-primary" style="padding:16px 30px; font-size:15px;" href={BOOK}>
+            Book an HR Strategy Conversation <span class="arr">&rarr;</span>
+          </a>
+          <p style="margin-top:22px; color:var(--ink-soft); max-width:52ch; font-size:15.5px;">
+            Every relationship starts with a short discovery conversation, no pressure, no obligation.
+            If it&rsquo;s a fit, next steps are yours to decide.
+          </p>
+        </div>
+        <div class="contact-card">
+          <h3>Direct</h3>
+          <div class="contact-line">
+            <span>
+              <span class="k">Email</span>
+              <a href="mailto:Valerie@orchestralhr.ca">valerie@orchestralhr.ca</a>
+            </span>
+            <span>
+              <span class="k">Based in</span>
+              <span>Toronto, Ontario, serving clients across Canada</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <figure class="band reveal" style="margin-top:52px;">
+        <img src={url("/assets/contact-meeting.jpg")} width="1200" height="500" loading="lazy" decoding="async"
+             alt="Two professionals talking across a table in a brick-walled office, both smiling." />
+        <figcaption><span class="note">&#9834;</span> Every engagement starts with a conversation</figcaption>
+      </figure>
+      <Credit photographer="Amy Hirschi" href="https://unsplash.com/photos/man-and-woman-talking-inside-office-W7aXY5F2pBo" />
+    </div>
+  </section>
+</BaseLayout>

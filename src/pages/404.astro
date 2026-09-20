@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { url } from "../lib/url";
+---
+
+<BaseLayout
+  title="Page not found | Orchestral HR Consulting"
+  description="That page could not be found."
+>
+  <section class="page-hero" style="min-height:62vh; display:flex; align-items:center;">
+    <div class="wrap">
+      <span class="eyebrow">Error 404</span>
+      <h1>That note isn&rsquo;t in this score.</h1>
+      <p class="hero-sub">
+        The page you were looking for doesn&rsquo;t exist, or it has moved.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href={url("/")}>Back to home <span class="arr">&rarr;</span></a>
+        <a class="btn btn-ghost" href={url("/services/")}>View services</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
