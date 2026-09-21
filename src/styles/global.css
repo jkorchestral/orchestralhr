@@ -354,6 +354,8 @@ h3{ font-size:1.16rem; letter-spacing:-.012em; }
   font-family:var(--display); font-weight:600; font-size:14.5px; letter-spacing:.04em; color:var(--ink);
 }
 .band figcaption .note{ color:var(--crimson); margin-right:9px; }
+/* on phones 12:5 is a thin strip the caption swallows; give the Contact band real height */
+@media (max-width:640px){ .band--contact img{ aspect-ratio:4/3; } }
 
 /* ---------- founder ---------- */
 .founder{ display:grid; gap:clamp(26px,3.5vw,42px); align-items:start; }
@@ -370,6 +372,11 @@ h3{ font-size:1.16rem; letter-spacing:-.012em; }
 .founder p + p{ margin-top:16px; }
 .founder a{ color:var(--crimson); font-weight:600; }
 .founder a:hover{ text-decoration:underline; }
+/* stands in for a headshot that hasn't arrived yet */
+.founder-portrait--initials{
+  display:grid; place-items:center; background:var(--crimson-dim);
+  font-family:var(--display); font-size:46px; font-weight:700; letter-spacing:.04em; color:var(--crimson);
+}
 
 /* ---------- stats / figures ---------- */
 .stat-grid{ display:grid; gap:18px; margin-top:8px; }
