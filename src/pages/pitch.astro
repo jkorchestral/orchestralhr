@@ -1,153 +1,71 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Credit from "../components/Credit.astro";
 import CtaBand from "../components/CtaBand.astro";
+import { url } from "../lib/url";
 
-const rows = [
-  { issue: "Team Conflict",          assume: "15 cases/yr",        cur: "$70,500",  orch: "$35,250", save: "$35,250" },
-  { issue: "Absenteeism",            assume: "10 employees (10%)", cur: "$25,000",  orch: "$12,500", save: "$12,500" },
-  { issue: "Underperformance",       assume: "5 cases/yr",         cur: "$47,500",  orch: "$23,750", save: "$23,750" },
-  { issue: "Headhunter Fees",        assume: "10 hires/yr",        cur: "$140,000", orch: "$56,000", save: "$84,000" },
-  { issue: "Bad Hires, Realized",    assume: "24% of 10 hires/yr", cur: "$67,200",  orch: "$26,900", save: "$40,300" },
-  { issue: "Termination Gone Wrong", assume: "1 case/yr",          cur: "$65,000",  orch: "$19,500", save: "$45,500" },
+const maybes = [
+  "Maybe your organization is growing. Maybe your HR team is overwhelmed. Maybe you’re restructuring, integrating an acquisition or navigating a complex people challenge.",
+  "Or maybe you’ve simply reached the point where the way you’ve always done things is no longer enough.",
+];
+
+const steps = [
+  { glyph: "♪", term: "Diagnose" },
+  { glyph: "♫", term: "Recommend" },
+  { glyph: "♬", term: "Implement" },
 ];
 ---
 
 <BaseLayout
   title="The Pitch | Orchestral HR Consulting"
-  description="What reactive people practices actually cost, and what changes when issues get caught early instead of managed in crisis."
+  description="You don't need more HR. You need the right leadership, at the right time."
   current="pitch"
+  ogImage="/assets/pitch-conductor.jpg"
 >
   <section class="page-hero">
     <div class="wrap">
       <span class="eyebrow">The Pitch</span>
-      <h1>Orchestral helps with fine tuning to drive people performance.</h1>
+      <h1>You don&rsquo;t need more HR. You need the right leadership, at the right time.</h1>
     </div>
   </section>
 
   <div class="staff" role="presentation"><span>&#9834;</span></div>
 
-  <section class="section section--flush" id="proactive">
+  <section class="section section--flush" id="why-orchestral">
     <div class="wrap">
-      <div class="section-head reveal">
-        <span class="section-num section-num--glyph">&#9834;</span>
-        <h2 class="section-title">Proactive People Practices vs. Reactive</h2>
-        <p class="section-dek">
-          People issues are cost effective to resolve while they&rsquo;re still a single note out of
-          place, and before they turn into full discord. Here&rsquo;s what waiting on this costs, and
-          how staying in tune protects your bottom line.
-        </p>
-      </div>
-
-      <div class="stat-grid stagger">
-        <div class="stat">
-          <span class="v count-up">~$40,000</span>
-          <span class="k">A year of leadership capacity lost when a leader spends 20% of their time off-script on people issues.</span>
+      <div class="split reveal">
+        <div>
+          <span class="section-num section-num--glyph">&#9833;</span>
+          {maybes.map((m, i) => (
+            <p class="section-dek" style={i === 0 ? "margin-top:0;" : undefined}>{m}</p>
+          ))}
+          <p class="pitch-turn">That&rsquo;s where Orchestral comes in.</p>
+          <p class="section-dek">
+            We bring experienced leadership, practical perspective and hands-on support to help
+            organizations move forward.
+          </p>
         </div>
-        <div class="stat">
-          <span class="v count-up">$460,200</span>
-          <span class="k">Annual cost of 15% turnover in a 100-employee business, at $30,680 per turnover event.</span>
-        </div>
-        <div class="stat">
-          <span class="v count-up">$394,700</span>
-          <span class="k">Potential annual savings with people issues caught early instead of managed in crisis.</span>
-        </div>
+        <figure class="pitch-figure">
+          <span class="shot">
+            <img src={url("/assets/pitch-conductor.jpg")} width="900" height="600" loading="lazy" decoding="async"
+                 alt="A conductor seen from behind, baton raised, lit against a dark concert hall." />
+          </span>
+          <Credit photographer="DM David" href="https://unsplash.com/photos/conductor-leading-an-orchestra-with-a-baton-mqqcU42QOwU" />
+        </figure>
       </div>
     </div>
   </section>
 
-  <section class="section" id="numbers">
+  <section class="section" id="approach">
     <div class="wrap">
-      <div class="section-head reveal">
-        <span class="section-num section-num--glyph">&#9835;</span>
-        <h2 class="section-title">Fine-Tuning the Numbers</h2>
-        <p class="section-dek">
-          A leader spending 20% of their time (up to a full day a week) off-script on people issues
-          instead of focusing on driving revenue and production, that&rsquo;s roughly $40,000 a year of
-          leadership capacity spent troubleshooting instead of conducting the business forward.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="business-case">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="section-num section-num--glyph">&#9834;</span>
-        <h2 class="section-title">The Business Case: 100 Employees, 15% Turnover</h2>
-        <p class="section-dek">
-          Here are the costs, and what changes when turnover drops 5 pts. to 10% with issues
-          getting caught early instead of managed in crisis.
-        </p>
-      </div>
-      <div class="callout reveal" style="margin-top:0;">
-        <span class="k">At 15% turnover, that&rsquo;s</span>
-        <span class="v count-up">~$460,200 a year</span>
-        <p>
-          15 replacements &times; $30,680 average cost per turnover event. Drop turnover 5 points to 10%,
-          and you save ~$153,400/year.*
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="where-cost-hides">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="section-num section-num--glyph">&#9837;</span>
-        <h2 class="section-title">Where People Cost Hides: Annual Impact</h2>
-      </div>
-
-      <div class="table-wrap reveal">
-        <table class="figures">
-          <caption class="sr-only">
-            Annual cost of people issues at 15% turnover compared with Orchestral support, and the resulting savings.
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Issue</th>
-              <th scope="col">Assumption</th>
-              <th scope="col" class="num">Current &mdash; 15% turnover</th>
-              <th scope="col" class="num">With Orchestral</th>
-              <th scope="col" class="num">Savings</th>
-            </tr>
-          </thead>
-          <tbody class="stagger">
-            {rows.map((r) => (
-              <tr>
-                <td class="issue"><span class="note">&#9837;</span>{r.issue}</td>
-                <td>{r.assume}</td>
-                <td class="num">{r.cur}</td>
-                <td class="num">{r.orch}</td>
-                <td class="num save">{r.save}</td>
-              </tr>
-            ))}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td>Total</td>
-              <td></td>
-              <td class="num">$415,200</td>
-              <td class="num">$173,900</td>
-              <td class="num save">$241,300</td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-
-      <div class="callout callout--total reveal">
-        <p class="callout-lead">
-          Add the $153,400 saved by reducing turnover plus the above giving your business a potential
-        </p>
-        <span class="k">Grand total of savings</span>
-        <span class="v count-up">$394,700 / annually</span>
-      </div>
-
-      <p class="footnote">
-        *Illustrative business case for a hypothetical 100-employee company with a blended average salary
-        of $70,000 along with a leader compensation of $200k. &ldquo;Current&rdquo; reflects a 15% annual
-        turnover rate; &ldquo;With Orchestral&rdquo; reflects turnover reduced to 10% (10 replacements per
-        year). Headhunter-fee and bad-hire figures are calculated at the 10-hires/year volume.
-      </p>
+      <ol class="pitch-steps stagger" aria-label="How Orchestral works">
+        {steps.map((s) => (
+          <li class="pitch-step"><span class="pitch-pill"><span class="note" aria-hidden="true">{s.glyph}</span>{s.term}</span></li>
+        ))}
+      </ol>
+      <blockquote class="pull reveal" style="margin-top:34px;">
+        Because good advice should lead to meaningful action.
+      </blockquote>
     </div>
   </section>
 

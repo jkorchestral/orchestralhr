@@ -1,11 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Credit from "../components/Credit.astro";
+import ContactForm from "../components/ContactForm.astro";
 
-// TODO: once Calendly is set up, replace this with the Calendly booking URL
-// (and drop the query string). It is referenced here, in Nav.astro and in
-// CtaBand.astro — three files instead of the old five pages.
-const BOOK = "mailto:Valerie@orchestralhr.ca?subject=HR%20Strategy%20Conversation";
 import { url } from "../lib/url";
 ---
 
@@ -29,25 +26,42 @@ import { url } from "../lib/url";
     <div class="wrap">
       <div class="contact-grid reveal">
         <div>
-          <a class="btn btn-primary" style="padding:16px 30px; font-size:15px;" href={BOOK}>
-            Book an HR Strategy Conversation <span class="arr">&rarr;</span>
-          </a>
-          <p style="margin-top:22px; color:var(--ink-soft); max-width:52ch; font-size:15.5px;">
+          <h2 class="cform-heading">Start a conversation</h2>
+          <p style="margin:14px 0 26px; color:var(--ink-soft); max-width:52ch; font-size:15.5px;">
             Every relationship starts with a short discovery conversation, no pressure, no obligation.
             If it&rsquo;s a fit, next steps are yours to decide.
           </p>
+          <ContactForm />
         </div>
         <div class="contact-card">
           <h3>Direct</h3>
-          <div class="contact-line">
-            <span>
-              <span class="k">Email</span>
-              <a href="mailto:Valerie@orchestralhr.ca">valerie@orchestralhr.ca</a>
-            </span>
-            <span>
-              <span class="k">Based in</span>
-              <span>Toronto, Ontario, serving clients across Canada</span>
-            </span>
+          <div class="contact-person">
+            <h4>Valerie Khan</h4>
+            <span class="role">Founder &amp; Executive Advisor</span>
+            <div class="contact-line">
+              <span>
+                <span class="k">Email</span>
+                <a href="mailto:Valerie@orchestralhr.ca">valerie@orchestralhr.ca</a>
+              </span>
+              <span>
+                <span class="k">Based in</span>
+                <span>Toronto, Ontario, serving clients across Canada</span>
+              </span>
+            </div>
+          </div>
+          <div class="contact-person">
+            <h4>Chris Mendez</h4>
+            <span class="role">Executive Advisor</span>
+            <div class="contact-line">
+              <span>
+                <span class="k">Email</span>
+                <a href="mailto:Chris.mendez@orchestralhr.ca">chris.mendez@orchestralhr.ca</a>
+              </span>
+              <span>
+                <span class="k">Based in</span>
+                <span>Edmonton, Alberta, serving clients across Canada</span>
+              </span>
+            </div>
           </div>
         </div>
       </div>
