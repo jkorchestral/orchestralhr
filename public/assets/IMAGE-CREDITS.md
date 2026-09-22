@@ -16,6 +16,7 @@ line under each photo.
 | `services-working-session.jpg` | Services hero | Priscilla Du Preez | [nNMBa7Y1Ymk](https://unsplash.com/photos/two-people-sitting-at-a-table-with-laptops-nNMBa7Y1Ymk) |
 | `services-orchestra.jpg` | Services, section 03 | Kazuo ota | [tch7GUtzM4Q](https://unsplash.com/photos/a-conductor-and-orchestra-performing-in-a-concert-tch7GUtzM4Q) |
 | `contact-coffee-chat.jpg` | Contact band | Priscilla Du Preez | [K8XYGbw4Ahg](https://unsplash.com/photos/two-people-holding-gray-mugs-at-table-K8XYGbw4Ahg) |
+| `pitch-conductor.jpg` | The Pitch, beside the opening | DM David | [mqqcU42QOwU](https://unsplash.com/photos/conductor-leading-an-orchestra-with-a-baton-mqqcU42QOwU) |
 
 `valerie-khan.jpg` is Valerie's own portrait and carries no credit.
 
@@ -38,4 +39,6 @@ line under each photo.
   (1600x1067) because the Contact band crops to 12:5 on desktop but 4:3 on phones
   (`.band--contact`). It has no faces, so neither crop can clip a head. Band slots crop to 12:5 and will cut roughly the top and bottom fifth off
   a normal 3:2 photo - check any replacement at that ratio before committing to it.
+- `pitch-conductor.jpg` is centre-cropped from the 2:1 original to 3:2 (900x600), the
+  `.split` photo ratio. The conductor sits in the middle, so the crop loses only dark hall.
 - Credits render through `src/components/Credit.astro`.

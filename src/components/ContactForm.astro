@@ -1,0 +1,124 @@
+---
+import { FORM_ENDPOINT, FORM_IS_LIVE } from "../lib/form";
+---
+
+<form class="cform" id="contactForm" method="post" action={FORM_ENDPOINT} novalidate>
+  {!FORM_IS_LIVE && (
+    <p class="cform-testnote">
+      Test mode: this form posts to the local test receiver, not to Valerie. Add the Formspree
+      endpoint in <code>src/lib/form.ts</code> to send for real.
+    </p>
+  )}
+  <input type="hidden" name="_subject" value="New enquiry from orchestralhr.ca" />
+  {/* spam trap: a real person never sees this, and never fills it in */}
+  <p class="cform-trap" aria-hidden="true">
+    <label>Leave this field empty<input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label>
+  </p>
+
+  <div class="cform-grid">
+    <p class="cform-field">
+      <label for="cf-name">Name <span class="req" aria-hidden="true">*</span></label>
+      <input id="cf-name" name="name" type="text" autocomplete="name" required />
+      <span class="cform-error" data-for="cf-name"></span>
+    </p>
+    <p class="cform-field">
+      <label for="cf-company">Company <span class="req" aria-hidden="true">*</span></label>
+      <input id="cf-company" name="company" type="text" autocomplete="organization" required />
+      <span class="cform-error" data-for="cf-company"></span>
+    </p>
+    <p class="cform-field">
+      <label for="cf-title">Title <span class="req" aria-hidden="true">*</span></label>
+      <input id="cf-title" name="title" type="text" autocomplete="organization-title" required />
+      <span class="cform-error" data-for="cf-title"></span>
+    </p>
+    <p class="cform-field">
+      <label for="cf-email">Email <span class="req" aria-hidden="true">*</span></label>
+      <input id="cf-email" name="email" type="email" autocomplete="email" required />
+      <span class="cform-error" data-for="cf-email"></span>
+    </p>
+  </div>
+
+  <p class="cform-field">
+    <label for="cf-message">What would you like help with? <span class="opt">(optional)</span></label>
+    <textarea id="cf-message" name="message" rows="4"></textarea>
+  </p>
+
+  <button class="btn btn-primary cform-submit" type="submit">
+    Send to Orchestral <span class="arr">&rarr;</span>
+  </button>
+
+  <p class="cform-note">
+    Goes straight to Valerie. Expect a reply within one business day.
+  </p>
+
+  <p class="cform-status" id="cformStatus" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+  const form = document.getElementById("contactForm") as HTMLFormElement | null;
+  const status = document.getElementById("cformStatus");
+  if (form && status) {
+    const fields = ["cf-name", "cf-company", "cf-title", "cf-email"];
+    const errorFor = (id: string) =>
+      form.querySelector<HTMLElement>(`.cform-error[data-for="${id}"]`);
+
+    const validate = (id: string) => {
+      const input = document.getElementById(id) as HTMLInputElement;
+      const slot = errorFor(id);
+      let msg = "";
+      if (!input.value.trim()) msg = "Please fill this in.";
+      else if (input.type === "email" && !input.checkValidity())
+        msg = "Please check this email address.";
+      if (slot) slot.textContent = msg;
+      input.classList.toggle("has-error", Boolean(msg));
+      input.setAttribute("aria-invalid", msg ? "true" : "false");
+      return !msg;
+    };
+
+    fields.forEach((id) => {
+      const input = document.getElementById(id) as HTMLInputElement;
+      input.addEventListener("blur", () => validate(id));
+      input.addEventListener("input", () => {
+        if (input.classList.contains("has-error")) validate(id);
+      });
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const ok = fields.map(validate).every(Boolean);
+      if (!ok) {
+        status.textContent = "Please check the highlighted fields.";
+        status.className = "cform-status is-error";
+        (form.querySelector(".has-error") as HTMLElement | null)?.focus();
+        return;
+      }
+
+      const button = form.querySelector(".cform-submit") as HTMLButtonElement;
+      button.disabled = true;
+      button.classList.add("is-sending");
+      status.textContent = "Sending…";
+      status.className = "cform-status is-sending";
+
+      try {
+        const res = await fetch(form.action, {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body: new FormData(form),
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        form.reset();
+        status.textContent =
+          "Thank you. Your details are on their way to Valerie, who will be in touch within one business day.";
+        status.className = "cform-status is-ok";
+        form.classList.add("is-sent");
+      } catch {
+        status.innerHTML =
+          'Sorry, that did not send. Please email <a href="mailto:Valerie@orchestralhr.ca">valerie@orchestralhr.ca</a> directly and we will pick it up from there.';
+        status.className = "cform-status is-error";
+      } finally {
+        button.disabled = false;
+        button.classList.remove("is-sending");
+      }
+    });
+  }
+</script>

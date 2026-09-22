@@ -58,7 +58,7 @@ body{
   overflow-x:hidden;
 }
 
-img{max-width:100%; display:block;}
+img{max-width:100%; height:auto; display:block;}
 a{color:inherit; text-decoration:none;}
 p{margin:0;}
 h1,h2,h3,h4{font-family:var(--display); font-weight:700; margin:0; text-wrap:balance; letter-spacing:-.02em; line-height:1.1;}
@@ -142,7 +142,8 @@ h3{ font-size:1.16rem; letter-spacing:-.012em; }
 .brand{ display:flex; align-items:center; flex:0 0 auto; }
 .brand img{ height:30px; width:auto; }
 .nav-spacer{ flex:1 1 auto; }
-.nav-links{ display:flex; align-items:center; gap:30px; }
+.nav-links{ display:flex; align-items:center; gap:clamp(18px,2.2vw,30px); }
+.nav-links a{ white-space:nowrap; }
 .nav-links a{
   position:relative; font-size:14.5px; font-weight:500; color:var(--ink-soft);
   transition:color .18s ease; padding:6px 0;
@@ -165,7 +166,7 @@ h3{ font-size:1.16rem; letter-spacing:-.012em; }
 .nav-toggle svg{ width:19px; height:19px; }
 .nav-toggle .bar{ stroke:currentColor; stroke-width:1.6; stroke-linecap:round; fill:none; }
 
-@media (max-width:920px){
+@media (max-width:1060px){
   .nav-toggle{ display:inline-flex; }
   .nav-cta-desktop{ display:none; }
   .nav-cta-mobile{ display:inline-flex; }
@@ -207,6 +208,10 @@ h3{ font-size:1.16rem; letter-spacing:-.012em; }
 .hero-grid{ display:grid; gap:clamp(36px,5vw,64px); align-items:center; }
 @media (min-width:940px){ .hero-grid{ grid-template-columns:1.05fr .95fr; } }
 .hero-sub{ margin-top:22px; font-size:clamp(1rem,1.35vw,1.14rem); color:var(--ink-soft); max-width:56ch; line-height:1.68; }
+.hero-sub + .hero-sub{ margin-top:14px; }
+.hero-sub.hero-tagline{
+  margin-top:20px; font-family:var(--display); font-weight:700; color:var(--ink); letter-spacing:.02em;
+}
 .hero-actions{ display:flex; flex-wrap:wrap; gap:14px; margin-top:38px; }
 .hero-figure{ margin:0; position:relative; }
 .hero-figure img{
@@ -357,7 +362,83 @@ h3{ font-size:1.16rem; letter-spacing:-.012em; }
 /* on phones 12:5 is a thin strip the caption swallows; give the Contact band real height */
 @media (max-width:640px){ .band--contact img{ aspect-ratio:4/3; } }
 
+/* ---------- contact form ---------- */
+.cform-heading{ font-size:clamp(1.4rem,2.4vw,1.9rem); }
+.cform{ margin:0; }
+.cform-testnote{
+  margin:0 0 22px; padding:12px 16px; border:1px dashed var(--rule-hi); border-radius:12px;
+  color:var(--ink-soft); font-size:13.5px; line-height:1.55;
+}
+.cform-testnote code{ color:var(--crimson); font-size:13px; }
+.cform-trap{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+.cform-grid{ display:grid; gap:18px; }
+@media (min-width:620px){ .cform-grid{ grid-template-columns:1fr 1fr; gap:18px 22px; align-items:start; } }
+.cform-field{ display:grid; gap:7px; margin:0; }
+.cform-field + .cform-field{ margin-top:18px; }
+.cform-grid .cform-field + .cform-field{ margin-top:0; }
+.cform label{
+  font-family:var(--display); font-size:13px; font-weight:700; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-soft);
+}
+.cform .req{ color:var(--crimson); }
+.cform .opt{ font-weight:600; letter-spacing:.04em; text-transform:none; opacity:.7; }
+.cform input, .cform textarea{
+  width:100%; padding:14px 16px; color:var(--ink);
+  background:var(--bg-raised); border:1px solid var(--rule-hi); border-radius:12px;
+  font-family:var(--body); font-size:15.5px; line-height:1.5;
+  transition:border-color .18s ease, box-shadow .18s ease;
+}
+.cform textarea{ resize:vertical; min-height:110px; }
+.cform input:focus-visible, .cform textarea:focus-visible{
+  outline:none; border-color:var(--crimson); box-shadow:0 0 0 3px var(--crimson-dim);
+}
+.cform input.has-error, .cform textarea.has-error{ border-color:var(--crimson); }
+.cform-error{ min-height:0; color:var(--crimson); font-size:13px; }
+.cform-error:empty{ display:none; }
+.cform-submit{ margin-top:26px; padding:15px 28px; font-size:15px; }
+.cform-submit[disabled]{ opacity:.65; cursor:progress; }
+.cform-note{ margin-top:14px; color:var(--ink-soft); font-size:14px; }
+.cform-status{ margin-top:18px; font-size:15px; line-height:1.6; }
+.cform-status:empty{ display:none; }
+.cform-status.is-ok{
+  color:var(--ink); background:var(--crimson-dim); border-left:3px solid var(--crimson);
+  padding:16px 18px; border-radius:0 12px 12px 0;
+}
+.cform-status.is-error{ color:var(--crimson); }
+.cform-status.is-error a{ color:var(--crimson); font-weight:600; text-decoration:underline; }
+.cform-status.is-sending{ color:var(--ink-soft); }
+
+/* ---------- the pitch ---------- */
+.pitch-turn{
+  margin-top:26px; font-family:var(--display); font-weight:700;
+  font-size:clamp(1.2rem,2.2vw,1.5rem); color:var(--ink); letter-spacing:-.01em;
+}
+.pitch-turn + .section-dek{ margin-top:10px; }
+@media (min-width:880px){ .pitch-figure{ max-width:440px; justify-self:end; align-self:center; } }
+.pitch-steps{
+  list-style:none; margin:0; padding:0;
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:14px 0;
+}
+.pitch-step{ display:flex; align-items:center; }
+.pitch-pill{
+  display:inline-flex; align-items:center; gap:12px;
+  padding:16px 26px; border:1px solid var(--rule-hi); border-radius:999px; background:var(--bg-raised);
+  font-family:var(--display); font-weight:700; font-size:clamp(1.05rem,1.8vw,1.3rem); color:var(--ink);
+}
+.pitch-pill .note{ color:var(--crimson); font-size:1.2em; line-height:1; }
+.pitch-step + .pitch-step::before{
+  content:"\2192"; margin:0 clamp(12px,2.4vw,26px); color:var(--crimson); font-weight:700; font-size:1.4rem;
+}
+
+@media (max-width:640px){
+  .pitch-steps{ flex-direction:column; gap:0; }
+  .pitch-step{ flex-direction:column; }
+  .pitch-step + .pitch-step::before{ content:"\2193"; margin:8px 0; }
+}
+
 /* ---------- founder ---------- */
+.section-dek.team-lead{ font-family:var(--display); font-weight:700; color:var(--ink); }
+.section-dek.team-lead + .section-dek{ margin-top:10px; }
 .founder{ display:grid; gap:clamp(26px,3.5vw,42px); align-items:start; }
 @media (min-width:760px){ .founder{ grid-template-columns:auto 1fr; } }
 .founder-portrait{
@@ -456,7 +537,15 @@ table.figures tfoot td{
   padding:clamp(26px,3vw,34px); border:1px solid var(--rule);
   border-radius:var(--radius); background:var(--bg-card);
 }
-.contact-card h3{ margin-bottom:20px; }
+.contact-card h3{ margin-bottom:22px; }
+.contact-person + .contact-person{
+  margin-top:26px; padding-top:26px; border-top:1px solid var(--rule);
+}
+.contact-person h4{ font-size:1.05rem; }
+.contact-person .role{
+  display:block; margin:6px 0 16px; color:var(--crimson);
+  font-size:11.5px; font-weight:600; letter-spacing:.13em; text-transform:uppercase;
+}
 .contact-line{ display:grid; gap:20px; }
 .contact-line .k{
   display:block; color:var(--ink-faint); font-size:11.5px;
