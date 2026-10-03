@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from "astro/config";
+import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
   // Served from the custom domain, so the site sits at the root and needs no
@@ -11,4 +12,10 @@ export default defineConfig({
   site: "https://orchestralhr.ca",
 
   build: { format: "directory" },
+
+  // Emits sitemap-index.xml + sitemap-0.xml at build. `site` above is what
+  // makes the URLs absolute, so the two settings are linked: changing the
+  // domain changes the sitemap with it. public/robots.txt points search
+  // engines here.
+  integrations: [sitemap()],
 });
