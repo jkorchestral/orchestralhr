@@ -16,6 +16,56 @@ const origin = Astro.site ?? "https://jkorchestral.github.io";
 const canonical = new URL(Astro.url.pathname, origin);
 const ogUrl = new URL(url(ogImage), origin);
 import { url } from "../lib/url";
+
+// Structured data, emitted once per page so every entry point describes the
+// business the same way. ProfessionalService (a LocalBusiness subtype) is what
+// lets `areaServed` and the service catalogue be declared; `address` is
+// deliberately absent because there is no public premises, which also keeps a
+// home address off the open web. Search engines accept a service business
+// without one - it simply gets no map placement, which is the right outcome.
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": `${origin}#organisation`,
+  name: "Orchestral HR Consulting",
+  url: String(origin),
+  logo: new URL(url("/assets/logo.png"), origin).href,
+  image: new URL(url("/assets/logo.png"), origin).href,
+  description:
+    "Fractional HR consulting for Canadian businesses - HR advisory, HR projects, talent acquisition and management, employee relations and governance, and coaching and leadership development.",
+  email: "info@orchestralhr.ca",
+  founder: {
+    "@type": "Person",
+    name: "Valerie Khan",
+    jobTitle: "Founder & Executive Advisor",
+  },
+  areaServed: [
+    { "@type": "Country", name: "Canada" },
+    { "@type": "AdministrativeArea", name: "Ontario" },
+  ],
+  knowsLanguage: "en-CA",
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "Sales",
+    email: "info@orchestralhr.ca",
+    areaServed: "CA",
+    availableLanguage: "English",
+  },
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "HR Services",
+    itemListElement: [
+      "HR Advisory",
+      "HR Projects",
+      "Talent Acquisition & Management",
+      "Employee Relations & Governance",
+      "Coaching & Leadership Development",
+    ].map((s) => ({
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name: s },
+    })),
+  },
+};
 ---
 
 <!doctype html>
@@ -35,6 +85,8 @@ import { url } from "../lib/url";
     <meta property="og:url" content={canonical.href} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#0A0D12" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} is:inline />
 
     <!-- Marks that JS is alive, so the reveal styles below only hide content
          we can guarantee we will show again. No JS = everything visible. -->

@@ -1,0 +1,201 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Privacy | Orchestral HR Consulting"
+  description="What Orchestral HR Consulting collects when you use this site, why, where it goes, and how to ask us to change or delete it."
+  current="privacy"
+>
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Privacy</span>
+      <h1>How we handle your information.</h1>
+      <p class="hero-sub">
+        Short version: we collect what you send us, we use it to reply, and nothing on this
+        site tracks you.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--flush">
+    <div class="wrap">
+      <div class="legal reveal">
+        <p class="legal-date">Last updated 3 October 2026</p>
+
+        <h2>What this covers</h2>
+        <p>
+          This policy applies to <strong>orchestralhr.ca</strong> &mdash; what happens when you
+          visit the site or get in touch through it.
+        </p>
+        <p>
+          It does <strong>not</strong> cover personal information we handle on behalf of a client
+          organisation under a services agreement, such as employee records or candidate
+          information. That is governed by the agreement with the client concerned and the data
+          handling terms within it.
+        </p>
+
+        <h2>What we collect</h2>
+        <dl class="legal-dl">
+          <dt>When you use the contact form</dt>
+          <dd>
+            Your name, company, job title and email address, plus an optional description of what
+            you would like help with. All of it is information you choose to give us.
+          </dd>
+
+          <dt>When you email us directly</dt>
+          <dd>Whatever you choose to include in your message.</dd>
+
+          <dt>Automatically</dt>
+          <dd>
+            This site is hosted on GitHub Pages, which records standard server information such as
+            IP address and browser type in the course of serving pages. We have no access to those
+            logs and do not use them.
+          </dd>
+        </dl>
+
+        <p class="legal-note">
+          We do not use analytics. We do not set cookies. We do not load fonts, scripts or
+          embeds from third-party networks &mdash; everything this site needs is served from the
+          site itself. There is no tracking here, and nothing follows you after you leave.
+        </p>
+
+        <h2>Why we collect it</h2>
+        <p>
+          Solely to respond to your enquiry and, if it leads somewhere, to continue that
+          conversation. We do not sell it, rent it, trade it, or add it to a marketing list.
+        </p>
+
+        <h2>Where it goes</h2>
+        <p>
+          The contact form is processed by <strong>Formspree</strong>, a third-party service that
+          receives your submission and forwards it to us by email. This means the information you
+          enter is transmitted to and stored on servers in the <strong>United States</strong>,
+          where it may be accessible to US courts and authorities under the laws of that country.
+        </p>
+        <p>
+          If you would rather your enquiry did not pass through a service outside Canada, email
+          <a href="mailto:info@orchestralhr.ca">info@orchestralhr.ca</a> directly instead.
+        </p>
+        <p>
+          Our email is hosted on Google Workspace. We do not share your information with anyone
+          else unless you ask us to, or unless we are required to by law.
+        </p>
+
+        <h2>How long we keep it</h2>
+        <p>
+          Enquiries that do not lead to an engagement are deleted within 24 months. Where a
+          conversation becomes a client relationship, records are retained under the terms of the
+          agreement with that client.
+        </p>
+
+        <h2>How we protect it</h2>
+        <p>
+          Access is limited to the people who need it. Accounts require multi-factor
+          authentication, and our email is authenticated with SPF, DKIM and DMARC so that
+          messages claiming to come from us can be verified as genuine.
+        </p>
+
+        <h2>Your rights</h2>
+        <p>
+          You can ask what personal information we hold about you, ask us to correct it, or ask us
+          to delete it. Write to
+          <a href="mailto:privacy@orchestralhr.ca">privacy@orchestralhr.ca</a> and we will respond
+          within 30 days, as the <em>Personal Information Protection and Electronic Documents
+          Act</em> requires.
+        </p>
+        <p>
+          If you are not satisfied with our response, you may complain to the Office of the
+          Privacy Commissioner of Canada at
+          <a href="https://www.priv.gc.ca" rel="noopener">priv.gc.ca</a>.
+        </p>
+
+        <h2>Unsolicited commercial email</h2>
+        <p>
+          The email addresses published on this site are here so that clients and prospective
+          clients can reach us. Publishing them is <strong>not</strong> consent to receive
+          commercial electronic messages, and they may not be collected or used for that purpose.
+        </p>
+
+        <h2>Changes to this policy</h2>
+        <p>
+          If this policy changes, we will update the date at the top of this page.
+        </p>
+
+        <h2>Who is accountable</h2>
+        <p class="legal-contact">
+          Valerie Khan, Privacy Officer<br />
+          <a href="mailto:privacy@orchestralhr.ca">privacy@orchestralhr.ca</a><br />
+          Orchestral HR Consulting &middot; Ontario, Canada
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal {
+    max-width: 68ch;
+  }
+
+  .legal-date {
+    color: var(--ink-faint);
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    margin: 0 0 38px;
+  }
+
+  .legal h2 {
+    font-size: 21px;
+    line-height: 1.25;
+    margin: 44px 0 14px;
+  }
+
+  .legal h2:first-of-type {
+    margin-top: 0;
+  }
+
+  .legal p {
+    color: var(--ink-soft);
+    font-size: 16px;
+    line-height: 1.7;
+    margin: 0 0 16px;
+  }
+
+  .legal a {
+    color: var(--crimson-text);
+  }
+
+  .legal strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .legal-dl {
+    margin: 0 0 16px;
+  }
+
+  .legal-dl dt {
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 15.5px;
+    margin: 20px 0 6px;
+  }
+
+  .legal-dl dd {
+    color: var(--ink-soft);
+    font-size: 16px;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .legal-note {
+    border-left: 2px solid var(--crimson-dim);
+    padding-left: 18px;
+    margin: 28px 0 16px;
+  }
+
+  .legal-contact {
+    line-height: 1.9;
+  }
+</style>

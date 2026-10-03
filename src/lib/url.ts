@@ -1,11 +1,15 @@
 // Every internal URL goes through here.
 //
-// The site is published to a GitHub Pages *project* page, so it lives under
-// /orchestralhr/ rather than at the domain root. A bare "/assets/logo.png"
-// would resolve to jkorchestral.github.io/assets/logo.png and 404.
+// Right now this is a passthrough: the site is served from orchestralhr.ca at
+// the root, so `base` is unset in astro.config.mjs and BASE_URL is just "/".
+// `url("/assets/logo.png")` returns "/assets/logo.png" unchanged.
 //
-// Keeping this in one place means moving to a custom domain later is a
-// one-line change to `base` in astro.config.mjs, not another 29-path edit.
+// It stays in place because it is the seam that makes the root assumption
+// reversible. Publishing to the jkorchestral.github.io project page for a
+// preview, or moving the site under a path, means setting `base` and nothing
+// else - without this, it would be another sweep across ~29 hard-coded paths.
+//
+// So: keep authoring internal paths as url("/..."), not as bare strings.
 const BASE = import.meta.env.BASE_URL.replace(/\/+$/, "");
 
 export const url = (path: string): string =>

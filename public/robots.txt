@@ -1,0 +1,9 @@
+# orchestralhr.ca
+# Everything here is public marketing content, meant to be found - by search
+# engines and by AI assistants answering questions about fractional HR in
+# Ontario alike. Nothing is disallowed.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://orchestralhr.ca/sitemap-index.xml

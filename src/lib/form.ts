@@ -1,9 +1,9 @@
 // Where the contact form posts.
 //
 // The site is static (GitHub Pages), so it cannot send mail itself. The form
-// posts to Formspree, which emails the enquiry to Valerie.
+// posts to Formspree, which emails the enquiry to info@orchestralhr.ca.
 //
-// TO GO LIVE: create the form at formspree.io under Valerie's address, then
+// TO GO LIVE: create the form at formspree.io, then
 // replace the empty string below with the endpoint it gives you, e.g.
 //   const FORMSPREE = "https://formspree.io/f/abcdwxyz";
 // The endpoint is public by design (it sits in the page HTML), so it is safe
@@ -17,4 +17,4 @@ export const FORM_ENDPOINT =
 export const FORM_IS_LIVE = Boolean(FORMSPREE || import.meta.env.PUBLIC_FORM_ENDPOINT);
 
 // Shown to the visitor if the send fails, so an enquiry is never simply lost.
-export const FORM_TO = "Valerie@orchestralhr.ca";
+export const FORM_TO = "info@orchestralhr.ca";
