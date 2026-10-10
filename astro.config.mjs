@@ -13,6 +13,12 @@ export default defineConfig({
 
   build: { format: "directory" },
 
+  // Every page URL ends in "/", matching the directory build above and what
+  // GitHub Pages serves with a 200 (it 301s "/about" to "/about/"). This keeps
+  // Astro.url - and so the canonical and og:url tags - and the sitemap on the
+  // same form.
+  trailingSlash: "always",
+
   // Emits sitemap-index.xml + sitemap-0.xml at build. `site` above is what
   // makes the URLs absolute, so the two settings are linked: changing the
   // domain changes the sitemap with it. public/robots.txt points search

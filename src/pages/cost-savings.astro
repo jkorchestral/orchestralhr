@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CtaBand from "../components/CtaBand.astro";
+import { url } from "../lib/url";
 
 const rows = [
   { issue: "Team Conflict",          assume: "15 cases/yr",        cur: "$70,500",  orch: "$35,250", save: "$35,250" },
@@ -64,6 +65,12 @@ const rows = [
           A leader spending 20% of their time (up to a full day a week) off-script on people issues
           instead of focusing on driving revenue and production, that&rsquo;s roughly $40,000 a year of
           leadership capacity spent troubleshooting instead of conducting the business forward.
+        </p>
+        <p class="section-dek">
+          Catching these issues early is what{" "}
+          <a href={url("/services/")}>Orchestral&rsquo;s HR advisory, project and hands-on services</a>{" "}
+          are built for. For the short version of why it matters,{" "}
+          <a href={url("/pitch/")}>read the Orchestral pitch</a>.
         </p>
       </div>
     </div>

@@ -399,6 +399,8 @@ h3{ font-size:1.16rem; letter-spacing:-.012em; }
 .cform-submit{ margin-top:26px; padding:15px 28px; font-size:15px; }
 .cform-submit[disabled]{ opacity:.65; cursor:progress; }
 .cform-note{ margin-top:14px; color:var(--ink-soft); font-size:14px; }
+.cform-note a{ color:var(--crimson-text); font-weight:600; }
+.cform-note a:hover{ text-decoration:underline; }
 .cform-status{ margin-top:18px; font-size:15px; line-height:1.6; }
 .cform-status:empty{ display:none; }
 .cform-status.is-ok{

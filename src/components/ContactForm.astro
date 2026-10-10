@@ -1,5 +1,6 @@
 ---
 import { FORM_ENDPOINT, FORM_IS_LIVE } from "../lib/form";
+import { url } from "../lib/url";
 ---
 
 <form class="cform" id="contactForm" method="post" action={FORM_ENDPOINT} novalidate>
@@ -49,6 +50,7 @@ import { FORM_ENDPOINT, FORM_IS_LIVE } from "../lib/form";
 
   <p class="cform-note">
     Goes straight to Valerie. Expect a reply within one business day.
+    <a href={url("/privacy/")}>How we handle your information</a>.
   </p>
 
   <p class="cform-status" id="cformStatus" role="status" aria-live="polite"></p>
