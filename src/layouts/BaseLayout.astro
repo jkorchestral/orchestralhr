@@ -8,6 +8,10 @@ const {
   description,
   current = "",
   ogImage = "/assets/logo.png",
+  // Only for pages that must stay out of search results (the 404). GitHub
+  // Pages serves 404.html with a 200 at /404 and /404.html, so without this
+  // it reads as an indexable page with a canonical pointing nowhere.
+  noindex = false,
 } = Astro.props;
 
 // Astro.url.pathname already carries the base; ogImage is authored without it,
@@ -75,14 +79,18 @@ const schema = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical.href} />
+    {noindex ? (
+      <meta name="robots" content="noindex" />
+    ) : (
+      <link rel="canonical" href={canonical.href} />
+    )}
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Orchestral HR Consulting" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogUrl.href} />
-    <meta property="og:url" content={canonical.href} />
+    {!noindex && <meta property="og:url" content={canonical.href} />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#0A0D12" />
 
